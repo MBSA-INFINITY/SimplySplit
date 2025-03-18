@@ -68,9 +68,9 @@ def add_group():
 @app.route("/group/<string:group_id>", methods=['GET','POST'])
 def get_group_details(group_id):
     user_id = session.get("user_id")
-    group_members = get_group_members(group_id, user_id)
-    group_name = get_group_name(group_id)
-    return render_template("group.html", user_id=user_id,group_id=group_id, group_members=group_members,group_name=group_name )
+    group_members = get_group_members(group_id)
+    group_name, group_state = get_group_name(group_id)
+    return render_template("group.html", user_id=user_id,group_id=group_id, group_members=group_members,group_name=group_name, group_state=group_state )
 
 @app.route("/add-transaction/<string:group_id>", methods=['POST'])
 def add_group_transaction(group_id):

@@ -17,9 +17,6 @@ def add_new_group(user_id, list_of_friends, group_name):
     group_state = {str(user_id): 0}
     for friend_user_id in list_of_friends:
         group_state[str(friend_user_id)] = 0
-        detail = {"user_id": user_id, "friend_user_id": friend_user_id, "group_id": group_id}
-        __detail = {"user_id": friend_user_id, "friend_user_id": user_id, "group_id": group_id}
-        group_members_details_collection.insert_many([detail, __detail])
     grp_details = {"group_id": group_id, "group_name": group_name, "group_state": group_state}
     group_details_collection.insert_one(grp_details)
 
@@ -60,12 +57,12 @@ def get_group_list(user_id):
 
 def get_group_name(group_id):
     if group_details := group_details_collection.find_one({"group_id": group_id},{"_id": 0}):
-        return group_details.get("group_name")
+        return group_details.get("group_name"), group_details.get("group_state")
     else:
         abort(500, {"message": f"group with group_id {group_id} doesn't exist!"})
 
-def get_group_members(group_id, user_id):
-    if group_members := group_members_details_collection.find({"group_id": group_id, "user_id": user_id}):
-        return list(group_members)
+def get_group_members(group_id):
+    if group_details := group_details_collection.find_one({"group_id": group_id}):
+        return list(group_details.get("group_state").keys())
     else:
         abort(500, {"message": "Group doesn't exists!"})

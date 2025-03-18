@@ -12,6 +12,7 @@
         <!-- {% for members in group_members%}
         <p>{{members['friend_user_id']}}</p>
         {% endfor %} -->
+        <p>{{group_state}}</p>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
           Add Transaction
         </button>
@@ -34,11 +35,9 @@
           <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Enter the amount of Transaction" name="expense_reason">
         </div>
         <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-          <input type="checkbox"  class="btn-check" name="people_involved" id="btncheck0" value="{{user_id}}">
-          <label class="btn btn-outline-primary" for="btncheck0">{{user_id}}</label>
-          {% for members in group_members %}
-          <input type="checkbox" class="btn-check" name="people_involved" id="btncheck{{loop.index}}" value="{{members['friend_user_id']}}">
-          <label class="btn btn-outline-primary" for="btncheck{{loop.index}}">{{members['friend_user_id']}}</label>
+          {% for member in group_members %}
+          <input type="checkbox" class="btn-check" name="people_involved" id="btncheck{{loop.index}}" value="{{member}}">
+          <label class="btn btn-outline-primary" for="btncheck{{loop.index}}">{{member}}</label>
           {% endfor %}
         </div>
       
