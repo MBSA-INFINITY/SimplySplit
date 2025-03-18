@@ -59,9 +59,8 @@ def add_friend():
 def add_group():
     user_id = session.get("user_id")
     form_data = dict(request.form)
-    user_list = form_data.get("user_list")
     group_name = form_data.get("group_name")
-    user_list = user_list.split(",")
+    user_list = request.form.getlist("user_list")
     add_new_group(user_id, user_list, group_name)
     return redirect("/dashboard")
 

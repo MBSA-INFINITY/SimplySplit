@@ -15,10 +15,13 @@ def add_new_friend(user_id, friend_user_id):
 def add_new_group(user_id, list_of_friends, group_name):
     group_id = str(uuid.uuid4())
     group_state = {str(user_id): 0}
+    group_members_details = [{"user_id": user_id, "group_id": group_id}]
     for friend_user_id in list_of_friends:
         group_state[str(friend_user_id)] = 0
+        group_members_details.append({"user_id": friend_user_id, "group_id": group_id})
     grp_details = {"group_id": group_id, "group_name": group_name, "group_state": group_state}
     group_details_collection.insert_one(grp_details)
+    group_members_details_collection.insert_many(group_members_details)
 
 
 def get_friends_list(user_id):
@@ -33,14 +36,9 @@ def get_group_list(user_id):
         }
     },
     {
-        "$group": {
-            "_id": "$group_id"
-        }
-    },
-    {
         "$lookup": {
             "from": "group_details",
-            "localField": "_id",
+            "localField": "group_id",
             "foreignField": "group_id",
             "as": "group_details"
         }

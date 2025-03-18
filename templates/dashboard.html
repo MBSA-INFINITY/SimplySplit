@@ -74,10 +74,17 @@
                                 <label for="exampleFormControlInput1" class="form-label">Group Name</label>
                                 <input type="text" class="form-control" id="group_name" name="group_name" placeholder="Enter Group Name">
                               </div>
-                            <div class="mb-3">
+                              <div class="mb-3 btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                                
+                                {% for friend in friends_list %}
+                                <input type="checkbox" class="btn-check" name="user_list" id="btncheck{{loop.index}}" value="{{friend['friend_user_id']}}">
+                                <label class="btn btn-outline-primary" for="btncheck{{loop.index}}">{{friend['friend_user_id']}}</label>
+                                {% endfor %}
+                              </div>
+                            <!-- <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">UserID's in CSV</label>
                                 <input type="text" class="form-control" id="user_list" name="user_list" placeholder="Enter User List">
-                              </div>
+                              </div> -->
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
