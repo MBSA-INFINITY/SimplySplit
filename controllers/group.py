@@ -15,8 +15,11 @@ def split_expense(group_id, expense_data, members_involved, paid_by):
             transactions.append((member, paid_by, single_person_amount))
     balances, simplified = simplify_debts(balances, transactions)
     group_details_collection.update_one({"group_id": group_id},{"$set":{'group_state': balances}})
+    transaction_details = {"expense_amount": expense_amount, "expense_reason": expense_reason, "paid_by": paid_by, "members_involved": members_involved, "group_id": group_id}
+    group_transactions_collection.insert_one(transaction_details)
 
-def add_transaction():
+
+def get_group_transactions():
     pass
     
     

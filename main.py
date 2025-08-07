@@ -1,7 +1,7 @@
 from flask import Flask, session, redirect, render_template, request, abort
 from controllers.user import insert_user
 from controllers.dashboard import add_new_friend, add_new_group, get_friends_list, get_group_list, get_group_members, get_group_name
-from controllers.group import split_expense
+from controllers.group import split_expense, get_group_transactions
 
 app = Flask(__name__)
 app.secret_key="mbsaiaditya"
@@ -69,7 +69,9 @@ def get_group_details(group_id):
     user_id = session.get("user_id")
     group_members = get_group_members(group_id)
     group_name, group_state = get_group_name(group_id)
-    return render_template("group.html", user_id=user_id,group_id=group_id, group_members=group_members,group_name=group_name, group_state=group_state )
+    group_transactions = get_group_transactions(group_id)
+    return render_template("group.html", user_id=user_id,group_id=group_id, group_members=group_members,group_name=group_name, group_state=group_state, group_transactions=group_transactions)
+
 
 @app.route("/add-transaction/<string:group_id>", methods=['POST'])
 def add_group_transaction(group_id):
